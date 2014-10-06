@@ -1,0 +1,7 @@
+{
+    "name": "testPipeline",
+    "stages": ["java.util.ArrayList", [
+        {"@class": "com.elusive_code.tserver.stages.TestPipeStage"},
+        {"@class": "com.elusive_code.tserver.stages.TestPipeStage"}
+    ]]
+}
