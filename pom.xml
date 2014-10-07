@@ -59,7 +59,6 @@
         <module>TServer-base</module>
         <module>TServer-web</module>
         <module>TServer-webapp</module>
-        <module>TServer-stages</module>
     </modules>
 
     <properties>
