@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 public class PipeExecutionState extends CompletableFuture {
 
     private Pipeline pipeline;
-    private Context context;
+    private Context  context;
 
     public PipeExecutionState(Pipeline pipeline, Context context) {
         this.pipeline = pipeline;
