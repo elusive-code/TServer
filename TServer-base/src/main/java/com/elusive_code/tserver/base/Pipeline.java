@@ -71,7 +71,6 @@ public class Pipeline implements PipelineStage, Serializable {
 
         //finish
         currentStage.handleAsync((BiFunction<Object,Throwable,Object>)(r,ex) -> {
-            ctx.putFinal(CtxParam.FINISH_DATE.key(), r);
             if (ex != null) {
                 ctx.putFinal(CtxParam.ERROR.key(), ex);
                 Object stage = ctx.get(CtxParam.CURRENT_STAGE.key());
@@ -84,6 +83,8 @@ public class Pipeline implements PipelineStage, Serializable {
                 }
                 result.complete(r);
             }
+            ctx.putFinal(CtxParam.FINISH_DATE.key(), new Date());
+            ctx.remove(CtxParam.CURRENT_STAGE.key());
             return r;
         });
 
