@@ -1,6 +1,5 @@
 package com.elusive_code.tserver.base;
 
-import com.elusive_code.tserver.util.ContextClassLoader;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -41,7 +40,7 @@ public class Main {
         ObjectMapper objectMapper = new ObjectMapper(){
 
         };
-        objectMapper.enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE, "@class");
+//        objectMapper.enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE, "@class");
         objectMapper.disable(SerializationFeature.FAIL_ON_EMPTY_BEANS);
         return objectMapper;
     }
@@ -79,8 +78,6 @@ public class Main {
             formatter.printHelp(" ",options,true);
             return;
         }
-
-        //Thread.currentThread().setContextClassLoader(Main.class.getClassLoader());
 
         //load pipeline(s)
         String pipelineFile = commandLine.getOptionValue("pipeline");

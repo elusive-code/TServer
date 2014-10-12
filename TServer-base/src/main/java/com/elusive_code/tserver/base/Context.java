@@ -1,6 +1,10 @@
 package com.elusive_code.tserver.base;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.elusive_code.tserver.jackson.ContextDeserializer;
+import com.elusive_code.tserver.jackson.ContextSerializer;
+import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -15,12 +19,14 @@ import java.util.concurrent.ExecutorService;
  *
  * @author Vladislav Dolgikh
  */
-public class Context extends AbstractMap<String,Object> {
+@JsonSerialize(using = ContextSerializer.class)
+@JsonDeserialize(using = ContextDeserializer.class)
+public class Context extends AbstractMap<String,Object>  {
 
     private Context                           parent   = null;
     private EntrySet                          entrySet = null;
     private Collection<Context>               children = null;
-    private Set<String>                       finals   = null;
+    private ConcurrentSkipListSet<String>     finals   = null;
     private ConcurrentHashMap<String, Object> params   = new ConcurrentHashMap<>();
 
     public Context() {
@@ -42,29 +48,30 @@ public class Context extends AbstractMap<String,Object> {
         this.params.putAll(params);
     }
 
-    public ExecutorService getExecutor(){
-        return (ExecutorService)get(CtxParam.EXECUTOR.key());
-    }
-
-    public Map<String, Object> getParams() {
-        return params;
+    public ExecutorService getExecutor() {
+        return (ExecutorService) get(CtxParam.EXECUTOR.key());
     }
 
     public Context getParent() {
         return parent;
     }
 
-    @JsonProperty
     public synchronized Collection<Context> getChildren() {
         if (children == null) {
             children = Collections.synchronizedSet(new LinkedHashSet<>());
         }
-        return children;
+        return (Collection)children;
     }
 
-    @JsonProperty
-    public synchronized void setChildren(LinkedHashSet<Context> children) {
-        this.children = Collections.synchronizedSet(children);
+    public synchronized Set<String> getFinals() {
+        if (finals == null) {
+            finals = new ConcurrentSkipListSet<>();
+        }
+        return finals;
+    }
+
+    public Map<String,Object> getParams(){
+        return params;
     }
 
     @Override
