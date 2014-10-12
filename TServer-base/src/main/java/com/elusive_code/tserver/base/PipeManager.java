@@ -1,11 +1,7 @@
 package com.elusive_code.tserver.base;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import org.apache.commons.lang3.Validate;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
@@ -14,6 +10,7 @@ import java.util.function.BiConsumer;
 /**
  * @author Vladislav Dolgikh
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public class PipeManager extends AbstractSet<Pipeline> {
 
     //to prevent memory leaks
@@ -25,13 +22,15 @@ public class PipeManager extends AbstractSet<Pipeline> {
     private Map<String, Pipeline> pipeMap = new HashMap<>();
 
     public PipeManager() {
-        this(null,null);
+        this(null, null);
     }
+
     public PipeManager(Context rootContext) {
-        this(null,rootContext);
+        this(null, rootContext);
     }
+
     public PipeManager(ExecutorService executor) {
-        this(executor,null);
+        this(executor, null);
     }
 
     public PipeManager(ExecutorService executor, Context rootContext) {
