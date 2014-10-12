@@ -8,25 +8,16 @@ import com.elusive_code.tserver.base.Context;
  */
 public class TestPipeStage extends AbstractPipeStage<Object,Integer> {
 
-    private int initialValue = 0;
-
-    public TestPipeStage() {
-    }
-
-    public TestPipeStage(int initialValue) {
-        this.initialValue = initialValue;
-    }
-
     @Override
-    public Integer run(Context ctx, Object input) throws Throwable {
-        Integer c = (Integer)ctx.get("testCounter");
+    public Integer run(Object input) throws Throwable {
+        Integer c = getParam("testCounter");
         if (c == null) {
-            c = initialValue;
+            c = 0;
         } else {
             c++;
         }
-        ctx.put("testCounter",c);
-        ctx.put("input_"+c,input);
+        setParam("testCounter",c);
+        setParam("input_"+c,input);
         return c;
     }
 
@@ -35,15 +26,11 @@ public class TestPipeStage extends AbstractPipeStage<Object,Integer> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        TestPipeStage that = (TestPipeStage) o;
-
-        if (initialValue != that.initialValue) return false;
-
         return true;
     }
 
     @Override
     public int hashCode() {
-        return initialValue;
+        return getClass().hashCode();
     }
 }

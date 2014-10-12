@@ -12,6 +12,14 @@ import java.util.concurrent.ExecutorService;
  */
 public abstract class AbstractPipeStage<I,O> implements PipelineStage<I,O> {
 
+    public <T> T getParam(String name){
+        return (T)Context.current().get(getClass().getName() + "." + name);
+    }
+
+    public void setParam(String name,Object value){
+        Context.current().put(getClass().getName() + "." + name, value);
+    }
+
     @Override
     public CompletionStage<O> execute(Context ctx, I input) {
         ExecutorService executorService = ctx.getExecutor();
@@ -19,15 +27,18 @@ public abstract class AbstractPipeStage<I,O> implements PipelineStage<I,O> {
 
         executorService.submit(()->{
             try {
-                O output = run(ctx, input);
+                Context.current(ctx);
+                O output = run(input);
                 future.complete(output);
             } catch (Throwable t) {
                 future.completeExceptionally(t);
+            } finally {
+                Context.current(null);
             }
         });
 
         return future;
     }
 
-    public abstract O run(Context ctx, I input) throws Throwable;
+    public abstract O run(I input) throws Throwable;
 }

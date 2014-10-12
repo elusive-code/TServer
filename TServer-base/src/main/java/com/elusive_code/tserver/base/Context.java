@@ -22,6 +22,17 @@ import java.util.concurrent.ExecutorService;
 @JsonDeserialize(using = ContextDeserializer.class)
 public class Context extends AbstractMap<String,Object>  {
 
+    private static ThreadLocal<Context> currentContext = new ThreadLocal<>();
+
+    public static Context current(){
+        return currentContext.get();
+    }
+
+    public static void current(Context ctx){
+        currentContext.set(ctx);
+    }
+
+
     private Context                           parent   = null;
     private EntrySet                          entrySet = null;
     private List<Context>                     children = null;
@@ -59,7 +70,7 @@ public class Context extends AbstractMap<String,Object>  {
         if (children == null) {
             children = Collections.synchronizedList(new ArrayList<>());
         }
-        return (List)children;
+        return (List) children;
     }
 
     public synchronized Set<String> getFinals() {
