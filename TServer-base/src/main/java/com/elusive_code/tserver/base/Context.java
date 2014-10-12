@@ -2,7 +2,6 @@ package com.elusive_code.tserver.base;
 
 import com.elusive_code.tserver.jackson.ContextDeserializer;
 import com.elusive_code.tserver.jackson.ContextSerializer;
-import com.fasterxml.jackson.annotation.*;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -25,7 +24,7 @@ public class Context extends AbstractMap<String,Object>  {
 
     private Context                           parent   = null;
     private EntrySet                          entrySet = null;
-    private Collection<Context>               children = null;
+    private List<Context>                     children = null;
     private ConcurrentSkipListSet<String>     finals   = null;
     private ConcurrentHashMap<String, Object> params   = new ConcurrentHashMap<>();
 
@@ -56,11 +55,11 @@ public class Context extends AbstractMap<String,Object>  {
         return parent;
     }
 
-    public synchronized Collection<Context> getChildren() {
+    public synchronized List<Context> getChildren() {
         if (children == null) {
-            children = Collections.synchronizedSet(new LinkedHashSet<>());
+            children = Collections.synchronizedList(new ArrayList<>());
         }
-        return (Collection)children;
+        return (List)children;
     }
 
     public synchronized Set<String> getFinals() {
@@ -214,5 +213,29 @@ public class Context extends AbstractMap<String,Object>  {
             }
             currentIterator.remove();
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        Context context = (Context) o;
+
+        if (!getChildren().equals(context.getChildren())) return false;
+        if (!getFinals().equals(context.getFinals())) return false;
+        if (!getParams().equals(context.getParams())) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + getChildren().hashCode();
+        result = 31 * result + getFinals().hashCode();
+        result = 31 * result + getParams().hashCode();
+        return result;
     }
 }
