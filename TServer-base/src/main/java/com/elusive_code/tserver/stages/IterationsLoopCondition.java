@@ -1,15 +1,16 @@
 package com.elusive_code.tserver.stages;
 
 import com.elusive_code.tserver.base.Context;
+import com.fasterxml.jackson.databind.annotation.JsonValueInstantiator;
 
 import java.util.function.BiPredicate;
 
 /**
  * @author Vladislav Dolgikh
  */
-public class IterationsLoopCondition implements BiPredicate<Context,Object> {
+public enum  IterationsLoopCondition implements BiPredicate<Context,Object> {
 
-    public static IterationsLoopCondition INSTANCE = new IterationsLoopCondition();
+    INSTANCE;
 
     private IterationsLoopCondition() {
     }
@@ -19,5 +20,4 @@ public class IterationsLoopCondition implements BiPredicate<Context,Object> {
         Integer iters = context.get(LoopPipeStage.ITERATIONS_CTX_PARAM, false);
         return iters > 0;
     }
-
 }

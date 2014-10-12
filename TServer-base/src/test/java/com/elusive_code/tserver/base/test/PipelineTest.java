@@ -1,15 +1,19 @@
 package com.elusive_code.tserver.base.test;
 
+import com.elusive_code.tserver.base.Main;
 import com.elusive_code.tserver.base.PipeManager;
 import com.elusive_code.tserver.base.Pipeline;
 import com.elusive_code.tserver.base.PipelineStage;
 import com.elusive_code.tserver.stages.TestPipeStage;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ServiceLoader;
 import java.util.concurrent.CompletionStage;
 
 /**
@@ -32,6 +36,28 @@ public class PipelineTest {
         pipeManager.add(preparePipeline());
         CompletionStage s = pipeManager.launch("testPipeline", "testInput");
         s.toCompletableFuture().get();
+    }
 
+    @Test
+    public void testSerialization() throws Exception {
+        Pipeline pipeline = preparePipeline();
+
+        ObjectMapper mapper = Main.objectMapper();
+        String s = mapper.writeValueAsString(pipeline);
+        Pipeline desPipeline = mapper.readValue(s, Pipeline.class);
+
+        Assert.assertEquals(pipeline,desPipeline);
+    }
+
+    @Test
+    public void testStagesSerialization() throws Exception {
+        ObjectMapper mapper = Main.objectMapper();
+        for (PipelineStage stage: ServiceLoader.load(PipelineStage.class)){
+            Pipeline pipe = new Pipeline();
+            pipe.getStages().add(stage);
+            String s = mapper.writeValueAsString(pipe);
+            Pipeline desPipe = mapper.readValue(s,Pipeline.class);
+            Assert.assertEquals(stage.getClass()+" serialization test failed",pipe,desPipe);
+        }
     }
 }
