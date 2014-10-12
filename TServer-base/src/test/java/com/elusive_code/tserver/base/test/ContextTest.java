@@ -2,11 +2,14 @@ package com.elusive_code.tserver.base.test;
 
 import com.elusive_code.tserver.base.Context;
 import com.elusive_code.tserver.base.FinalModificationException;
+import com.elusive_code.tserver.base.Main;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -167,8 +170,16 @@ public class ContextTest {
                 }
             }
         }
+    }
 
+    @Test
+    public void testSerialization() throws IOException {
+        Context ctx = prepareContext().getParent();
+        ObjectMapper om = Main.objectMapper();
 
+        String s = om.writeValueAsString(ctx);
+        Context desCtx = om.readValue(s,Context.class);
 
+        Assert.assertEquals(ctx,desCtx);
     }
 }
