@@ -45,7 +45,7 @@ public class Main {
         return objectMapper;
     }
 
-    public static PipeManager loadPipeManager(ObjectMapper objectMapper, String pipelineFilename, String contextFile) throws IOException {
+    public static SimplePipeManager loadPipeManager(ObjectMapper objectMapper, String pipelineFilename, String contextFile) throws IOException {
         Context root = null;
         if (!StringUtils.isBlank(contextFile)){
             File f = new File(contextFile);
@@ -54,7 +54,7 @@ public class Main {
             }
         }
 
-        PipeManager pipeManager = new PipeManager(root);
+        SimplePipeManager pipeManager = new SimplePipeManager(root);
         pipeManager.setAutoCleanContexts(false);
 
         File pipelineFile = new File(pipelineFilename);
@@ -91,7 +91,7 @@ public class Main {
         }
 
         ObjectMapper objectMapper = objectMapper();
-        PipeManager pipeManager = loadPipeManager(objectMapper, pipelineFile, inputContext);
+        SimplePipeManager pipeManager = loadPipeManager(objectMapper, pipelineFile, inputContext);
 
         //select pipeline
         String pipeName = commandLine.getOptionValue("name");
@@ -112,7 +112,7 @@ public class Main {
         }
 
         //execution
-        PipeExecutionState exec = pipeManager.launch(pipeName,input);
+        PipeExecutionState exec = pipeManager.launchPipeline(pipeName,input);
         Object result = exec.get();
         if (!(result instanceof byte[])){
             result = objectMapper.writeValueAsBytes(result);

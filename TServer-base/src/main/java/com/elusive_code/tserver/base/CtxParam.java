@@ -11,6 +11,8 @@ public enum CtxParam {
     INPUT,
     START_DATE,
 
+    PROCESS_ID,
+    TEMP_FOLDER,
     CURRENT_STAGE,
     STAGE_RESULTS,
 

@@ -1,39 +1,48 @@
 package com.elusive_code.tserver.base;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.common.io.Files;
+import org.apache.commons.io.FileUtils;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ForkJoinPool;
 import java.util.function.BiConsumer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @author Vladislav Dolgikh
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public class PipeManager extends AbstractSet<Pipeline> {
+public class SimplePipeManager extends AbstractSet<Pipeline> implements PipelineManager {
+
+    private static Logger log = Logger.getLogger(SimplePipeManager.class.getName());
 
     //to prevent memory leaks
-    private boolean autoCleanContexts = true;
+    private boolean autoCleanContexts  = true;
+    private boolean autoCleanTempFiles = true;
 
     private Context         rootContext;
     private ExecutorService executor;
-    private Set<Pipeline>         pipes   = new LinkedHashSet<>();
+    private List<Pipeline>        pipes   = new ArrayList<>();
     private Map<String, Pipeline> pipeMap = new HashMap<>();
 
-    public PipeManager() {
+    public SimplePipeManager() {
         this(null, null);
     }
 
-    public PipeManager(Context rootContext) {
+    public SimplePipeManager(Context rootContext) {
         this(null, rootContext);
     }
 
-    public PipeManager(ExecutorService executor) {
+    public SimplePipeManager(ExecutorService executor) {
         this(executor, null);
     }
 
-    public PipeManager(ExecutorService executor, Context rootContext) {
+    public SimplePipeManager(ExecutorService executor, Context rootContext) {
         this.executor = executor;
         if (this.executor == null) {
             this.executor = defaultExecutorService();
@@ -47,8 +56,66 @@ public class PipeManager extends AbstractSet<Pipeline> {
         this.rootContext.putFinal(CtxParam.EXECUTOR.name(), this.executor);
     }
 
-    public PipeExecutionState launch(String pipeName, Object input) {
-        Pipeline pipe = getPipeline(pipeName);
+    @Override
+    public ExecutorService getExecutor() {
+        return executor;
+    }
+
+    @Override
+    public void setExecutor(ExecutorService executor) {
+        this.executor = executor;
+    }
+
+    @Override
+    public Context getRootContext() {
+        return rootContext;
+    }
+
+    @Override
+    public void setRootContext(Context rootContext) {
+        this.rootContext = rootContext;
+    }
+
+    public boolean isAutoCleanContexts() {
+        return autoCleanContexts;
+    }
+
+    public void setAutoCleanContexts(boolean autoCleanContexts) {
+        this.autoCleanContexts = autoCleanContexts;
+    }
+
+    public boolean isAutoCleanTempFiles() {
+        return autoCleanTempFiles;
+    }
+
+    public void setAutoCleanTempFiles(boolean autoCleanTempFiles) {
+        this.autoCleanTempFiles = autoCleanTempFiles;
+    }
+
+    @Override
+    public void addPipeline(Pipeline pipe) {
+        add(pipe);
+    }
+
+    @Override
+    public void removePipeline(Pipeline pipe) {
+        remove(pipe);
+    }
+
+    @Override
+    public Pipeline removePipeline(String name){
+        Pipeline result = getPipeline(name);
+        removePipeline(result);
+        return result;
+    }
+
+    @Override
+    public PipeExecutionState launchPipeline(String pipeName, Object input) {
+        return launchPipeline(getPipeline(pipeName), input);
+    }
+
+    @Override
+    public PipeExecutionState launchPipeline(Pipeline pipe, Object input) {
         Context pipeCtx = new Context(rootContext);
         PipeExecutionState s = pipe.execute(pipeCtx,input);
         s.whenCompleteAsync((BiConsumer<Object, Throwable>) (r, t) -> {
@@ -58,18 +125,6 @@ public class PipeManager extends AbstractSet<Pipeline> {
             }
         });
         return s;
-    }
-
-    public Context getRootContext(){
-        return rootContext;
-    }
-
-    public boolean isAutoCleanContexts() {
-        return autoCleanContexts;
-    }
-
-    public void setAutoCleanContexts(boolean autoCleanContexts) {
-        this.autoCleanContexts = autoCleanContexts;
     }
 
     public Pipeline getPipeline(String name){

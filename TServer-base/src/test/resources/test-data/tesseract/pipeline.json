@@ -1,0 +1,15 @@
+{"@class": "com.elusive_code.tserver.base.Pipeline", "name": null, "stages": [
+    {
+        "@class": "com.elusive_code.tserver.stages.tesseract.TesseractStage",
+        "pathToTesseract": "{{env.TESSDATA_PREFIX}}/tesseract",
+        "tessDataPath": null,
+        "userWordsFile": null,
+        "userPatternsFile": null,
+        "languages": [],
+        "analysis": "APS",
+        "config": {},
+        "configFile": "",
+        "imageFormat": "png",
+        "outputFile": null
+    }
+]}

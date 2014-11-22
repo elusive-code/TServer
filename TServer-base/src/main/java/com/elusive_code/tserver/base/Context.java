@@ -85,7 +85,7 @@ public class Context extends AbstractMap<String,Object>  {
     }
 
     @Override
-    public Object put(String key, Object value) {
+    public synchronized Object put(String key, Object value) {
         if (finals != null && finals.contains(key)) {
             throw new FinalModificationException(key + " parameter is final");
         }

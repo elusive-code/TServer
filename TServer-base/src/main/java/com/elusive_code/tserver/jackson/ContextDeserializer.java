@@ -90,7 +90,7 @@ public class ContextDeserializer extends JsonDeserializer<Context> {
         JsonToken token = jp.getCurrentToken();
         if (!JsonToken.FIELD_NAME.equals(token) || !PARAMS_FIELD.equals(jp.getCurrentName())) return false;
 
-        token = jp.nextToken();
+        jp.nextToken();
         Map<String,Object> params = jp.readValueAs(Map.class);
         result.putAll(params);
         return true;
@@ -100,7 +100,7 @@ public class ContextDeserializer extends JsonDeserializer<Context> {
         JsonToken token = jp.getCurrentToken();
         if (!JsonToken.FIELD_NAME.equals(token) || !FINALS_FIELD.equals(jp.getCurrentName())) return false;
 
-        token = jp.nextToken();
+        jp.nextToken();
         Set<String> finals = jp.readValueAs(Set.class);
         result.getFinals().addAll(finals);
         return true;

@@ -1,0 +1,44 @@
+{"children": [
+    {
+        "children": [],
+        "params": {
+            "INPUT": "SGVsbG8=",
+            "OUTPUT": 1,
+            "STAGE_RESULTS": [0, 1],
+            "input_1": 0,
+            "PIPELINE": {
+                "stages": [
+                    {
+                        "@class": "com.elusive_code.tserver.stages.TestPipeStage"
+                    },
+                    {
+                        "@class": "com.elusive_code.tserver.stages.TestPipeStage"
+                    }
+                ],
+                "name": "testPipeline"
+            },
+            "START_DATE": 1413103600553,
+            "testCounter": 1,
+            "FINISH_DATE": 1413103600583,
+            "input_0": "SGVsbG8="
+        },
+        "finals": ["FINISH_DATE", "INPUT", "OUTPUT", "PIPELINE", "STAGE_RESULTS", "START_DATE"]
+    }
+], "params": {
+    "EXECUTOR": {
+        "stealCount": 2,
+        "parallelism": 6,
+        "factory": {},
+        "uncaughtExceptionHandler": null,
+        "shutdown": false,
+        "terminated": false,
+        "activeThreadCount": 0,
+        "asyncMode": false,
+        "poolSize": 1,
+        "queuedSubmissionCount": 0,
+        "queuedTaskCount": 0,
+        "runningThreadCount": 0,
+        "quiescent": true,
+        "terminating": false
+    }
+}, "finals": ["EXECUTOR"]}

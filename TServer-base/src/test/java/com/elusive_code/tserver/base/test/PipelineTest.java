@@ -29,9 +29,9 @@ public class PipelineTest {
 
     @Test
     public void test() throws Exception{
-        PipeManager pipeManager = new PipeManager();
+        SimplePipeManager pipeManager = new SimplePipeManager();
         pipeManager.add(preparePipeline());
-        CompletionStage s = pipeManager.launch("testPipeline", "testInput");
+        CompletionStage s = pipeManager.launchPipeline("testPipeline", "testInput");
         s.toCompletableFuture().get();
     }
 
