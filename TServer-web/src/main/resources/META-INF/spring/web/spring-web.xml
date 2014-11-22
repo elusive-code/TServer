@@ -4,16 +4,31 @@
        xmlns:context="http://www.springframework.org/schema/context"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <mvc:annotation-driven/>
+
     <context:component-scan base-package="com.elusive_code.tserver.web"/>
-    
-    <bean id="viewResolver"
-          class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="viewClass"
-                  value="org.springframework.web.servlet.view.JstlView" />
+
+    <bean id="handlebarsViewResolver"
+          class="com.github.jknack.handlebars.springmvc.HandlebarsViewResolver">
         <property name="prefix" value="/tserver/" />
-        <property name="suffix" value=".jsp" />
+        <property name="suffix" value=".hbs" />
     </bean>
-    
-    <mvc:resources mapping="/r/**" location="classpath:/META-INF/resources/tserver/"/>
+
+    <!--<bean id="jspViewResolver"-->
+          <!--class="org.springframework.web.servlet.view.InternalResourceViewResolver">-->
+        <!--<property name="viewClass"-->
+                  <!--value="org.springframework.web.servlet.view.JstlView" />-->
+        <!--<property name="prefix" value="/tserver/" />-->
+        <!--<property name="suffix" value=".jsp" />-->
+    <!--</bean>-->
+
+
+    <mvc:resources mapping="/**/*.js" location="classpath:/META-INF/resources/tserver/"/>
+    <mvc:resources mapping="/**/*.json" location="classpath:/META-INF/resources/tserver/"/>
+    <mvc:resources mapping="/**/*.map" location="classpath:/META-INF/resources/tserver/"/>
+    <mvc:resources mapping="/**/*.css" location="classpath:/META-INF/resources/tserver/"/>
+    <mvc:resources mapping="/**/*.html" location="classpath:/META-INF/resources/tserver/"/>
+    <mvc:resources mapping="/**/*.txt" location="classpath:/META-INF/resources/tserver/"/>
+    <mvc:resources mapping="/**/*.hbs" location="classpath:/META-INF/resources/tserver/"/>
 
 </beans>

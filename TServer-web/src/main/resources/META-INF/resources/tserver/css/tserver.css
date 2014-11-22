@@ -1,0 +1,8 @@
+.row.full {
+    /*max-width: 80rem; */
+    max-width: 100%;
+}
+
+.inner-wrap {
+    min-height: 20rem;
+}

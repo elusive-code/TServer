@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>Index</title>
+    {{>layout/head}}
+</head>
+<body>
+
+    {{>layout/init}}
+
+    <script>
+        require([
+            'jquery',
+            'can',
+            'component/TServerApp',
+            'can/view/stache',
+            'bower/foundation/js/vendor/fastclick',
+            'foundation'
+        ],function($,can){
+            $(document.body).append(can.stache('<tserver-app></tserver-app>'));
+            $(document).ready(function(){
+                $(this).foundation();
+            });
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<div class="off-canvas-wrap" data-offcanvas>
+    <div class="inner-wrap">
+
+        <!-- Off Canvas Menu -->
+        <aside id="slideMenu" class="left-off-canvas-menu">
+            <ul class="off-canvas-list">
+                {{#each panels}}
+                    <li class="menuItem {{#if scope.active}}active{{/if}}" {{data 'component'}}>
+                        <a href="#{{scope.id}}">{{scope.name}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+        </aside>
+
+        <nav class="tab-bar">
+            <section class="left-small show-for-small">
+                <a class="left-off-canvas-toggle menu-icon"
+                   role="button"
+                   aria-controls="slideMenu"
+                   aria-expanded="false"
+                   href="#slideMenu"><span></span></a>
+            </section>
+
+            <section class="middle tab-bar-section">
+                <h1 class="title">TServer</h1>
+            </section>
+        </nav>
+
+        <!-- main content goes here -->
+        <section class="row full">
+
+            <ul class="large-3 medium-4 columns hide-for-small side-nav"
+                aria-hidden="true">
+                {{#each panels}}
+                    <li class="menuItem {{#if scope.active}}active{{/if}}" {{data 'component'}}>
+                        <a href="#{{scope.id}}">{{scope.name}}</a>
+                    </li>
+                {{/each}}
+            </ul>
+
+            <div class="large-9 medium-8 columns">
+                <processes-panel></processes-panel>
+                <contexts-panel></contexts-panel>
+                <pipelines-panel></pipelines-panel>
+                <files-panel></files-panel>
+            </div>
+        </section>
+
+
+        <section class="row full">
+        </section>
+
+        <!-- close the off-canvas menu -->
+        <a class="exit-off-canvas"></a>
+
+    </div>
+</div>
