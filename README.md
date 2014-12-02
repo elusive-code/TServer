@@ -1,4 +1,6 @@
 TServer
 =======
 
-OCR server, based on Tesseract
+OCR server, based on Tesseract.
+
+WIP
