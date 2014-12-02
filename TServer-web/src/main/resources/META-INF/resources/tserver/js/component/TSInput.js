@@ -1,7 +1,7 @@
 define([
     'jquery',
     'can',
-    'text!template/TSInput.hbs',
+    'text!js/template/TSInput.hbs',
     'can/view/stache'
 ],function($,can,template){
     return can.Component.extend({

@@ -1,13 +1,13 @@
 define([
     'jquery',
     'can',
-    'text!template/TServerApp.hbs',
+    'text!js/template/TServerApp.hbs',
     'can/view/stache',
-    'component/TSInput',
-    'component/ContextsPanel',
-    'component/FilesPanel',
-    'component/PipelinesPanel',
-    'component/ProcessesPanel'
+    'js/component/TSInput',
+    'js/component/ContextsPanel',
+    'js/component/FilesPanel',
+    'js/component/PipelinesPanel',
+    'js/component/ProcessesPanel'
 ],function($,can,template){
     return can.Component.extend({
         tag: 'tserver-app',

@@ -1,19 +1,19 @@
 (function () {
     var cfg = {
-        baseUrl: '/tserver/js',
+        baseUrl: '/tserver',
         paths: {
             //requirejs plugins
-            text: 'bower/requirejs-text/text',
-            jade: 'bower/require-jade/jade',
+            text: 'js/bower/requirejs-text/text',
+            jade: 'js/bower/require-jade/jade',
 
             //libs
-            jquery: 'bower/jquery/dist/jquery',
-            underscore: 'bower/underscore/underscore',
-            q: 'bower/q/q',
-            gss: 'bower/gss/dist/gss/gss',
-            gss_worker: 'bower/gss/dist/worker',
+            jquery: 'js/bower/jquery/dist/jquery',
+            underscore: 'js/bower/underscore/underscore',
+            q: 'js/bower/q/q',
+            gss: 'js/bower/gss/dist/gss/gss',
+            gss_worker: 'js/bower/gss/dist/worker',
 
-            "foundation": 'bower/foundation/js/foundation',
+            "foundation": 'js/bower/foundation/js/foundation',
             "foundation.abide": 'foundation/foundation.abide',
             "foundation.accordion": 'foundation/foundation.accordion',
             "foundation.alert": 'foundation/foundation.alert',
@@ -32,11 +32,11 @@
             "foundation.topbar": 'foundation/foundation.topbar',
 
             //frameworks
-            can:'bower/canjs/amd-dev/can',
-            backbone: 'bower/backbone/backbone',
-            angular: 'bower/angular/angular',
+            can:'js/bower/canjs/amd-dev/can',
+            backbone: 'js/bower/backbone/backbone',
+            angular: 'js/bower/angular/angular',
 
-            ace: 'bower/ace/lib/ace'
+            ace: 'js/bower/ace/lib/ace'
         },
         shim: {
             "jquery.cookie": ['jquery'],

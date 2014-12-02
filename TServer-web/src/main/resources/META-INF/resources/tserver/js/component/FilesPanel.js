@@ -1,7 +1,7 @@
 define([
     'jquery',
     'can',
-    'text!template/FilesPanel.hbs',
+    'text!js/template/FilesPanel.hbs',
     'can/view/stache'
 ],function($,can,template){
     return can.Component.extend({

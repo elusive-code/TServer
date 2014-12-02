@@ -1,7 +1,7 @@
 define([
     'jquery',
     'can',
-    'text!template/ContextsPanel.hbs',
+    'text!js/template/ContextsPanel.hbs',
     'can/view/stache'
 ],function($,can,template){
     return can.Component.extend({

@@ -1,7 +1,7 @@
 define([
     'jquery',
     'can',
-    'text!template/ProcessesPanel.hbs',
+    'text!js/template/ProcessesPanel.hbs',
     'can/view/stache'
 ],function($,can,template){
     return can.Component.extend({

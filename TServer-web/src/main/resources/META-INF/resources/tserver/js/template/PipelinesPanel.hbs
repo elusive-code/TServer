@@ -1,5 +1,10 @@
 {{#if active}}
 <section>
     pipelines
+    <ul>
+    {{#pipelines}}
+        <li>{{name}}</li>
+    {{/pipelines}}
+    </ul>
 </section>
 {{/if}}

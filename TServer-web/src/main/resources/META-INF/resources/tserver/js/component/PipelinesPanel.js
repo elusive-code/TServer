@@ -1,13 +1,15 @@
 define([
     'jquery',
     'can',
-    'text!template/PipelinesPanel.hbs',
+    'text!js/template/PipelinesPanel.hbs',
+    'js/model/Pipeline',
     'can/view/stache'
-],function($,can,template){
+],function($,can,template,Pipeline){
     return can.Component.extend({
         tag: 'pipelines-panel',
         template: can.stache(template),
         init: function(element,parent){
+            var that = this;
             $(element).attr('id',this.id);
             var panels = parent.scope.attr('panels');
             if (panels) {
@@ -16,6 +18,10 @@ define([
                 panels = new can.List([this]);
                 parent.scope.attr('panels',panels);
             }
+
+            Pipeline.findAll().done(function(res){
+                that.scope.attr('pipelines',res);
+            });
         },
         scope: {
             id: 'pipelinesPanel',

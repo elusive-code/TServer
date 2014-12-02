@@ -3,11 +3,13 @@ package com.elusive_code.tserver.web;
 import com.elusive_code.tserver.base.Pipeline;
 import com.elusive_code.tserver.base.PipelineManager;
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 import java.util.ArrayList;
 
@@ -17,7 +19,7 @@ import java.util.ArrayList;
 @RestController
 public class PipelinesController {
 
-    @Inject
+    @Resource(name = "pipelineManagerImpl")
     private PipelineManager pipelineManager;
 
     @RequestMapping(value = "/pipelines",method = RequestMethod.GET)
@@ -49,7 +51,7 @@ public class PipelinesController {
        updatePipeline(pipeline.getName(),pipeline);
     }
 
-    @RequestMapping(value = "/pipelines/{name}",method = {RequestMethod.POST,RequestMethod.PUT})
+    @RequestMapping(value = "/pipelines/{name}",method = {RequestMethod.DELETE})
     public void removePipeline(@PathVariable("name")String name){
         pipelineManager.removePipeline(name);
     }
